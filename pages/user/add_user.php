@@ -1,3 +1,33 @@
+<?php
+session_start();
+require_once("config.php");
+
+$role_sql = "SELECT id, role_type FROM role";
+$role_result = $conn->query($role_sql);
+
+if(isset($_POST['submit'])){
+    $firstname = $_POST['firstname'];
+    $lastname  = $_POST['lastname'];
+    $email     = $_POST['email'];
+    $phone     = $_POST['phone'];
+    $password  = $_POST['password']; // plain password
+    $role_id   = $_POST['role_id'];
+
+    if(!empty($role_id)){
+        $sql = "INSERT INTO user (firstname, lastname, email, phone, password, role_id)
+                VALUES ('$firstname','$lastname','$email','$phone','$password','$role_id')";
+        if($conn->query($sql) === TRUE){
+            $_SESSION['success'] = "User added successfully!";
+            header("Location: add_user.php");
+            exit;
+        } else {
+            $error = "Error: ".$conn->error;
+        }
+    } else {
+        $error = "Please select a role.";
+    }
+}
+?>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
@@ -23,7 +53,7 @@
     <!-- Default box -->
     <div class="card">
       <div class="card-header">
-        <h3 class="card-title">Title</h3>
+        <h3 class="card-title">Add New User</h3>
 
         <div class="card-tools">
           <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -41,44 +71,54 @@
           </div>
           <!-- /.card-header -->
           <!-- form start -->
-          <form>
-            <div class="card-body">
+   
+      <form action="" method="POST">
+        <div class="card-body">
+          <div class="form-group">
+            <label>First Name</label>
+            <input type="text" name="firstname" class="form-control" placeholder="Enter first name" required>
+          </div>
 
-              <div class="form-group">
-                <label for="exampleInputEmail1">Name</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-              </div>
-              <div class="form-group">
-                <label for="exampleInputEmail1">Email address</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-              </div>
-              <div class="form-group">
-                <label for="exampleInputPassword1">contact</label>
-                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="contact">
-              </div>
-              <div class="form-group">
-                  <label>Minimal</label>
-                  <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
-                    <option selected="selected" data-select2-id="3">Alabama</option>
-                    <option>Alaska</option>
-                    <option>California</option>
-                    <option>Delaware</option>
-                    <option>Tennessee</option>
-                    <option>Texas</option>
-                    <option>Washington</option>
-                  </select><span class="select2 select2-container select2-container--default select2-container--focus" dir="ltr" data-select2-id="2" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-b5ai-container"><span class="select2-selection__rendered" id="select2-b5ai-container" role="textbox" aria-readonly="true" title="Alabama">Alabama</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
-                </div>
-              <div class="form-check">
-                <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                <label class="form-check-label" for="exampleCheck1">Check me out</label>
-              </div>
-            </div>
-            <!-- /.card-body -->
+          <div class="form-group">
+            <label>Last Name</label>
+            <input type="text" name="lastname" class="form-control" placeholder="Enter last name" required>
+          </div>
 
-            <div class="card-footer">
-              <button type="submit" class="btn btn-primary">Submit</button>
-            </div>
-          </form>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" name="email" class="form-control" placeholder="Enter email" required>
+          </div>
+
+          <div class="form-group">
+            <label>Phone</label>
+            <input type="text" name="phone" class="form-control" placeholder="Enter phone number" required>
+          </div>
+
+          <div class="form-group">
+            <label>Password</label>
+            <input type="text" name="password" class="form-control" placeholder="Enter password" required>
+          </div>
+
+          <div class="form-group">
+            <label>Role</label>
+            <select name="role_id" class="form-control" required>
+              <option value="">--Select Role--</option>
+              <?php
+                if($role_result->num_rows > 0){
+                    while($row = $role_result->fetch_assoc()){
+                        echo "<option value='{$row['id']}'>{$row['role_type']}</option>";
+                    }
+                }
+              ?>
+            </select>
+          </div>
+        </div>
+
+        <!-- /.card-body -->
+        <div class="card-footer">
+          <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </form>
         </div>
       </div>
 
