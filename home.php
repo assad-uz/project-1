@@ -3,15 +3,15 @@
 
 ?>
 <?php 
- include("include/header.php");
- include("include/nav.php");
+ include("include/home/header.php");
+ include("include/home/nav.php");
  ?>
 
   <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
   <?php 
- include("include/sidebar.php");
+ include("include/home/sidebar.php");
  ?>
  <div>
     <!-- Main content -->
@@ -32,5 +32,5 @@
   <!-- /.content-wrapper -->
 
   <?php 
- include("include/footer.php");
+ include("include/home/footer.php");
  ?>

@@ -103,7 +103,7 @@
 
       
       <p class="mb-0">
-        <a href="index.php" class="text-center">Register a new membership</a>
+        <a href="registration.php" class="text-center">Register a new membership</a>
       </p>
     </div>
     <!-- /.login-card-body -->

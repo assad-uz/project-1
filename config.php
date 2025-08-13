@@ -6,7 +6,7 @@
 
     $password = "";
 
-    $dbname = "auth-one"; 
+    $dbname = "hotel_ms"; 
 
     $conn = new mysqli($servername, $username, $password, $dbname);
 
