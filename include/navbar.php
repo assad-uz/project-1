@@ -42,10 +42,10 @@
 
       <ul class="navbar-nav ms-auto"> <!-- Right side buttons -->
         <li class="nav-item">
-          <a class="btn btn-outline-light me-2" href="auth/login.php">Login</a>
+          <a class="btn btn-outline-light me-2" href="login.php">Login</a>
         </li>
         <li class="nav-item">
-          <a class="btn btn-outline-light" href="auth/register.php">Register</a>
+          <a class="btn btn-outline-light" href="registration.php">Register</a>
         </li>
       </ul>
     </div>

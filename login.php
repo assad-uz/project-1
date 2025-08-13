@@ -1,39 +1,37 @@
 <?php
-// include "config.php";
-// date_default_timezone_set("Asia/Dhaka"); 
+session_start();
+require_once("config.php");
 
-// if(isset($_POST['btn-login'])) {
-// 	$email =	trim($_POST['email']);
-// 	$password =	trim($_POST['password']);
+if (isset($_POST["btnLogin"])) {
+    $email = trim($_POST["email"]);
+    $password = trim($_POST["password"]);
 
-// 	$query = $db->query("SELECT * FROM users WHERE email='$email' AND password='$password' ");
-// 	header("location:home.php");
-// }
-// ?>
+    // এখন role_id নিয়েও ডাটা আনা
+    $user_table = $conn->query("SELECT id, email, password, role_id FROM user WHERE email='$email' AND password='$password'");
 
+    if ($user_table->num_rows > 0) {
+        list($id, $db_email, $db_password, $role_id) = $user_table->fetch_row();
 
-<?php session_start(); 
+        // সেশন সেট
+        $_SESSION["s_email"] = $db_email;
+        $_SESSION["s_role"] = $role_id;
 
- require_once("config.php");
- 
- if(isset($_POST["btnLogin"])){
-	$email=trim($_POST["email"]);
-	$password=trim($_POST["password"]);
-	
-   $user_table=$conn->query("select id,email,password from users where email='$email' and password='$password'");
-   
-  list($id,$_first,$_last,$_email,$_password)=$user_table->fetch_row();
-  
-	if(isset($id)){
-	    $_SESSION["s_email"]=$_email;	
-		header("location:home.php");
-	}else{
-	   $error="<span style='color:red;'>Incorrect username or password</span>";	
-	}
-	
- }
-
+        // রোল অনুযায়ী রিডিরেক্ট
+        if ($role_id == 1) {
+            header("Location: home.php");
+        } elseif ($role_id == 2) {
+            header("Location: index.php");
+        } else {
+            header("Location: home.php");
+        }
+        exit;
+    } else {
+        $error = "<span style='color:red;'>Incorrect username or password</span>";
+    }
+}
 ?>
+
+
 
 
 
