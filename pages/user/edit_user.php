@@ -1,6 +1,35 @@
 
+<?php
 
+  if(isset($_POST["btnUpdate"])){
+	  
+	  $id=$_POST["id"];	  
+	  $fname=$_POST["fname"];
+	  $lname=$_POST["lname"];
+	  $email=$_POST["email"];
+	  $password=$_POST["password"];
+	  
+	  $conn->query("update users set firstname='$fname',lastname='$lname',email='$email' where id='$id'");
+	$r = "Success Updated";
+	  // echo "Success Updated";
+	  
+  }
+  
+  
+  if(isset($_POST["btnEdit"])){
+	  $id=$_POST["id"];
+	  
+	  $use_tbl=$conn->query("select firstname,lastname,email,password from users where id='$id'");
+	  
+	  list($fname,$lname,$email,$password)=$use_tbl->fetch_row();
+	}
+  
+
+?>
+  
   <!-- Content Wrapper. Contains page content -->
+
+
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -42,40 +71,47 @@
                 <h3 class="card-title">Quick Example</h3>
               </div>
               <!-- /.card-header -->
+        
+  </div>
+  <div class="ftitle text-center"> 
+			<h4><?php echo isset($r)?$r:"Users update Form" ?></h4>
+		</div>
               <!-- form start -->
-              <form>
-                <div class="card-body">
-                  <div class="form-group">
-                    <label for="exampleInputEmail1">Email address</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-                  </div>
-                  <div class="form-group">
-                    <label for="exampleInputPassword1">Password</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-                  </div>
-                  <div class="form-group">
-                    <label for="exampleInputFile">File input</label>
-                    <div class="input-group">
-                      <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="exampleInputFile">
-                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-                      </div>
-                      <div class="input-group-append">
-                        <span class="input-group-text">Upload</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                    <label class="form-check-label" for="exampleCheck1">Check me out</label>
-                  </div>
-                </div>
-                <!-- /.card-body -->
+             <form action="#" method="post">
+                  <div class="card-body">
 
-                <div class="card-footer">
-                  <button type="submit" class="btn btn-primary">Submit</button>
-                </div>
-              </form>
+              <div class="form-group">
+                <input type="hidden" class="form-control"  name="id" value="<?php echo $id ?>">
+              </div>
+              <div class="form-group">
+                <label for="y">First Name</label>
+                <input type="text" class="form-control" id="y" name="fname" value="<?php echo $fname ?>">
+              </div>
+              <div class="form-group">
+                <label for="y">Last Name</label>
+                <input type="text" class="form-control" id="y" name="lname" value="<?php echo $lname ?>">
+              </div>
+               <div class="form-group">
+                <label for="p">Email</label>
+                <input type="text" class="form-control" id="p" name="email" value="<?php echo $email ?>">
+              </div>
+               <div class="form-group">
+                <label for="r">password</label>
+                <input type="text" class="form-control" id="r" name="password" value="<?php echo $password ?>">
+              </div>
+              
+            </div>
+            <!-- /.card-body -->
+
+            <div class="card-footer">
+              <button type="submit" class="btn btn-primary" name="btnUpdate">Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- /.card-footer-->
+    </div>
             </div>
         </div>
       

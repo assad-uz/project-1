@@ -45,7 +45,7 @@
 	   
    }else{
 	   
-       echo "Welcome to my Ne Project";
+       echo "Welcome to my NeW Project";
    }
 
 ?>

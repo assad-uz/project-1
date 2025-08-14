@@ -39,7 +39,7 @@
           </form>
         </div>
       </li>
-
+      <li><a href="logout.php">Logout</a></li>
       <!-- Messages Dropdown Menu -->
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">

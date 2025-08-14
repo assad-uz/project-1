@@ -1,34 +1,43 @@
-<?php
-session_start();
-require_once("config.php");
-
-$role_sql = "SELECT id, role_type FROM role";
-$role_result = $conn->query($role_sql);
-
-if(isset($_POST['submit'])){
-    $firstname = $_POST['firstname'];
-    $lastname  = $_POST['lastname'];
-    $email     = $_POST['email'];
-    $phone     = $_POST['phone'];
-    $password  = $_POST['password']; // plain password
-    $role_id   = $_POST['role_id'];
-
-    if(!empty($role_id)){
-        $sql = "INSERT INTO user (firstname, lastname, email, phone, password, role_id)
-                VALUES ('$firstname','$lastname','$email','$phone','$password','$role_id')";
-        if($conn->query($sql) === TRUE){
-            $_SESSION['success'] = "User added successfully!";
-            header("Location: add_user.php");
-            exit;
-        } else {
-            $error = "Error: ".$conn->error;
-        }
-    } else {
-        $error = "Please select a role.";
-    }
-}
-?>
 <!-- Content Wrapper. Contains page content -->
+<?php
+// include("config.php");
+if (!isset($conn)) {
+	header("location:login.php");
+}
+  if (isset($_POST['submit'])) {
+
+    $first_name = $_POST['firstname'];
+
+    $last_name = $_POST['lastname'];
+
+    $email = $_POST['email'];
+
+    $password = $_POST['password'];
+
+    $sql = "INSERT INTO `users`(`firstname`, `lastname`, `email`, `password`) 
+
+           VALUES ('$first_name','$last_name','$email','$password')";
+
+    $result = $conn->query($sql);
+
+    if ($result == TRUE) {
+
+      $r = "User Added Successfully";
+
+    }else{
+
+      echo "Error:". $sql . "<br>". $conn->error;
+
+    }
+
+    $conn->close();
+
+  } 
+
+?> 
+
+
+
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
   <section class="content-header">
@@ -53,7 +62,7 @@ if(isset($_POST['submit'])){
     <!-- Default box -->
     <div class="card">
       <div class="card-header">
-        <h3 class="card-title">Add New User</h3>
+        <h3 class="card-title">Title</h3>
 
         <div class="card-tools">
           <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -69,56 +78,37 @@ if(isset($_POST['submit'])){
           <div class="card-header">
             <h3 class="card-title">Quick Example</h3>
           </div>
+          <div class="ftitle text-center"> 
+			<h4><?php echo isset($r)?$r:"Users Registration Form" ?></h4>
+		</div>
           <!-- /.card-header -->
           <!-- form start -->
-   
-      <form action="" method="POST">
-        <div class="card-body">
-          <div class="form-group">
-            <label>First Name</label>
-            <input type="text" name="firstname" class="form-control" placeholder="Enter first name" required>
-          </div>
+     <form action="#" method="post">
+                  <div class="card-body">
 
-          <div class="form-group">
-            <label>Last Name</label>
-            <input type="text" name="lastname" class="form-control" placeholder="Enter last name" required>
-          </div>
+              <div class="form-group">
+                <label for="exampleInputEmail1">First Name</label>
+                <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter Name" name="firstname">
+              </div>
+               <div class="form-group">
+                <label for="exampleInputEmail1">Last Name</label>
+                <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter Last name" name="lastname">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputEmail1">Email address</label>
+                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email" name="email">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">Password</label>
+                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name="password">
+              </div>
+            </div>
+            <!-- /.card-body -->
 
-          <div class="form-group">
-            <label>Email</label>
-            <input type="email" name="email" class="form-control" placeholder="Enter email" required>
-          </div>
-
-          <div class="form-group">
-            <label>Phone</label>
-            <input type="text" name="phone" class="form-control" placeholder="Enter phone number" required>
-          </div>
-
-          <div class="form-group">
-            <label>Password</label>
-            <input type="text" name="password" class="form-control" placeholder="Enter password" required>
-          </div>
-
-          <div class="form-group">
-            <label>Role</label>
-            <select name="role_id" class="form-control" required>
-              <option value="">--Select Role--</option>
-              <?php
-                if($role_result->num_rows > 0){
-                    while($row = $role_result->fetch_assoc()){
-                        echo "<option value='{$row['id']}'>{$row['role_type']}</option>";
-                    }
-                }
-              ?>
-            </select>
-          </div>
-        </div>
-
-        <!-- /.card-body -->
-        <div class="card-footer">
-          <button type="submit" name="submit" class="btn btn-primary">Submit</button>
-        </div>
-      </form>
+            <div class="card-footer">
+              <button type="submit" class="btn btn-primary" name="submit">Submit</button>
+            </div>
+          </form>
         </div>
       </div>
 
