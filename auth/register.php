@@ -166,6 +166,22 @@
                     </label>
                   </div>
                 </div>
+
+                <div class="input-group mb-3">
+          <select name="role_id" class="form-control" required>
+            <option value="">-- Select Role --</option>
+            <?php
+            if ($role_result->num_rows > 0) {
+                while ($row = $role_result->fetch_assoc()) {
+                    echo "<option value='{$row['id']}'>{$row['role_type']}</option>";
+                }
+            }
+            ?>
+          </select>
+          <div class="input-group-append">
+            <div class="input-group-text"><span class="fas fa-user-tag"></span></div>
+          </div>
+        </div>
                 <button class="btn btn-primary d-grid w-100">Sign up</button>
               </form>
 
